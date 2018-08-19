@@ -3,7 +3,7 @@ require 'json'
 
 class PageData
     
-    attr_accessor :blocks, :data
+    attr_accessor :blocks, :data, :project
     
     def initialize
         @blocks = {}
@@ -25,11 +25,17 @@ class PageData
     
     def read_data
         data["projects"] = {}
-        Dir.foreach('data/projects') do |item|
+        Dir.foreach('data/projects/meta') do |item|
             next if item == '.' or item == '..'
-            contents = File.read('data/projects/' + item)
+            contents = File.read('data/projects/meta/' + item)
             parsed = JSON.parse(contents)
-            @data["projects"][item] = parsed
+            name = item.split(".")[0]
+            @data["projects"][name] = parsed
+            
+            if parsed["body"] != nil
+               contents = File.read('data/projects/contents/' + parsed["body"]) 
+                parsed["body"] = contents
+            end
         end
     end
     
@@ -50,7 +56,14 @@ Dir.foreach('templates/core') do |item|
     File.write("output/" + item, output)
 end
 
+%x( mkdir output/projects/ )
 
+data.data["projects"].each do |index, project|
+    data.project = data.data["projects"][index]
+    template = File.read("templates/projects/" + project["template"])
+    output = ERB.new(template).result(binding)
+    File.write("output/projects/" + index + ".html", output)
+end
 
 %x( cp style.css output/style.css )
 %x( cp -r resources/ output/resources )
