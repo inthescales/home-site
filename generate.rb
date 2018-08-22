@@ -25,17 +25,25 @@ class PageData
     
     def read_data
         data["projects"] = {}
-        Dir.foreach('data/projects/meta') do |item|
-            next if item == '.' or item == '..'
-            contents = File.read('data/projects/meta/' + item)
-            parsed = JSON.parse(contents)
-            name = item.split(".")[0]
+        Dir.foreach('data/projects') do |item|
+            next if item == '.' or item == '..' or not File.directory?('data/projects/' + item)
+
+            name = item            
+            meta = File.read("data/projects/" + name + "/meta.json")
+            parsed = JSON.parse(meta)
             @data["projects"][name] = parsed
             
-            if parsed["body"] != nil
-               contents = File.read('data/projects/contents/' + parsed["body"]) 
-                parsed["body"] = contents
+            body = File.read('data/projects/' + name + '/body.html') 
+            parsed["body"] = body
+            
+            parsed["screenshots"] = []
+            if Dir.exist?("resources/projects/" + name + "/screenshots")
+                Dir.foreach("resources/projects/" + name + "/screenshots") do |item|
+                    next if item == '.' or item == '..' or item[0] == "."
+                    parsed["screenshots"] << "/resources/projects/" + name + "/screenshots/" + item
+                end
             end
+            
         end
     end
     
