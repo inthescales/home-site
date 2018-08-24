@@ -77,9 +77,6 @@ p.caption-center {
 }
 
 .screenshots-frame {
-    border-width: 1px;
-    border-style: none;
-    border-color: rgb(40, 233, 84);
     text-align: center;
     margin: auto auto 0px;
 }

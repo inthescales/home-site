@@ -1,6 +1,15 @@
 require 'erb'
 require 'json'
 
+def createThumbnail(path, image)
+    
+    imagePath = path + "/" + image
+    
+    %x( magick #{imagePath} -resize '230' temp )
+    %x( magick temp -crop '230x160+0+0' -gravity center temp )
+    %x( mv temp output/#{path}/thumbnails/#{image} )
+end
+
 class PageData
     
     attr_accessor :blocks, :data, :project
@@ -38,8 +47,11 @@ class PageData
             
             parsed["screenshots"] = []
             if Dir.exist?("resources/projects/" + name + "/screenshots")
+                %x( mkdir resources/projects/#{name}/screenshots/thumbnails )
                 Dir.foreach("resources/projects/" + name + "/screenshots") do |item|
                     next if item == '.' or item == '..' or item[0] == "."
+                    path = "resources/projects/" + name + "/screenshots"
+                    createThumbnail(path, item)
                     parsed["screenshots"] << "/resources/projects/" + name + "/screenshots/" + item
                 end
             end
