@@ -3,12 +3,22 @@
 
 <%=
     if @project["screenshots"].length == 2
-        @blocks["screenshots-two"].gsub("%path_1%", @project["screenshots"][0])
+   
+        @blocks["screenshots-two"]
+        .gsub("%path_1%", @project["screenshots"][0])
         .gsub("%path_2%", @project["screenshots"][1])
+        .gsub("%thumbnail_1%", @project["thumbnails"][@project["screenshots"][0]])
+        .gsub("%thumbnail_2%", @project["thumbnails"][@project["screenshots"][1]])
+   
     elsif @project["screenshots"].length == 3
-        @blocks["screenshots-three"].gsub("%path_1%", @project["screenshots"][0])
+   
+        @blocks["screenshots-three"]
+        .gsub("%path_1%", @project["screenshots"][0])
         .gsub("%path_2%", @project["screenshots"][1])
         .gsub("%path_3%", @project["screenshots"][2])
+        .gsub("%thumbnail_1%", @project["thumbnails"][@project["screenshots"][0]])
+        .gsub("%thumbnail_2%", @project["thumbnails"][@project["screenshots"][1]])
+        .gsub("%thumbnail_3%", @project["thumbnails"][@project["screenshots"][2]])
     end
 %>
     

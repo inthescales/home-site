@@ -1,14 +1,6 @@
 require 'erb'
 require 'json'
-
-def createThumbnail(path, image)
-    
-    imagePath = path + "/" + image
-    
-    %x( magick #{imagePath} -resize '230' temp )
-    %x( magick temp -crop '230x160+0+0' -gravity center temp )
-    %x( mv temp output/#{path}/thumbnails/#{image} )
-end
+require_relative 'create_thumbnail.rb'
 
 class PageData
     
@@ -46,13 +38,21 @@ class PageData
             parsed["body"] = body
             
             parsed["screenshots"] = []
+            parsed["thumbnails"] = {}
+            
             if Dir.exist?("resources/projects/" + name + "/screenshots")
-                %x( mkdir resources/projects/#{name}/screenshots/thumbnails )
-                Dir.foreach("resources/projects/" + name + "/screenshots") do |item|
+
+                %x( mkdir output/resources/projects/#{name}/screenshots/thumbnails )
+                path = "resources/projects/" + name + "/screenshots"
+                Dir.foreach(path) do |item|
+                    
                     next if item == '.' or item == '..' or item[0] == "."
-                    path = "resources/projects/" + name + "/screenshots"
+                    
+                    screenshot_path = "/" + path + "/" + item
+                    thumbnail_path = "/" + path + "/" + item
                     createThumbnail(path, item)
-                    parsed["screenshots"] << "/resources/projects/" + name + "/screenshots/" + item
+                    parsed["screenshots"] << screenshot_path
+                    parsed["thumbnails"][screenshot_path] = thumbnail_path
                 end
             end
             
@@ -64,10 +64,13 @@ class PageData
     end
 end
 
+%x( mkdir temp )
+%x( rm -rf output/*)
+%x( mkdir output/projects/ )
+%x( cp -r resources/ output/resources )
+
 data = PageData.new
 binding = data.get_binding
-
-%x( rm -r output/*)
 
 Dir.foreach('templates/core') do |item|
     next if item == '.' or item == '..'
@@ -75,8 +78,6 @@ Dir.foreach('templates/core') do |item|
     output = ERB.new(template).result(binding)
     File.write("output/" + item, output)
 end
-
-%x( mkdir output/projects/ )
 
 data.data["projects"].each do |index, project|
     data.project = data.data["projects"][index]
@@ -86,4 +87,4 @@ data.data["projects"].each do |index, project|
 end
 
 %x( cp style.css output/style.css )
-%x( cp -r resources/ output/resources )
+%x( rm -rf temp )
