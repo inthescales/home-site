@@ -76,6 +76,13 @@ p.caption-center {
     font-style: italic;
 }
 
+p.language-prompt {
+    margin: 0px 0px 8px;
+    font-size: 10pt;
+    text-align: left;
+    font-style: italic;
+}
+
 .screenshots-frame {
     text-align: center;
     margin: auto auto 0px;
