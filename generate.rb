@@ -1,6 +1,6 @@
 require 'erb'
 require 'json'
-require_relative 'create_thumbnail.rb'
+require_relative 'scripts/create_thumbnail.rb'
 
 class PageData
     
@@ -64,7 +64,10 @@ class PageData
     end
 end
 
-%x( mkdir temp )
+if not Dir.exist?("temp")
+    %x( mkdir temp )
+end
+
 %x( rm -rf output/*)
 %x( mkdir output/projects/ )
 %x( cp -r resources/ output/resources )
@@ -73,17 +76,28 @@ data = PageData.new
 binding = data.get_binding
 
 Dir.foreach('templates/core') do |item|
-    next if item == '.' or item == '..'
+    next if item == '.' or item == '..' or item[0,1] == '.'
     template = File.read("templates/core/" + item)
     output = ERB.new(template).result(binding)
-    File.write("output/" + item, output)
+    
+    place = ""
+    if item != "home.html"
+        name = item.split(".")[0]
+        if not Dir.exist?("output/#{name}")
+            %x( mkdir output/#{name} )
+        end
+        place = name + "/"
+    end
+        
+    File.write("output/#{place}index.html", output)
 end
 
 data.data["projects"].each do |index, project|
     data.project = data.data["projects"][index]
     template = File.read("templates/projects/" + project["template"])
     output = ERB.new(template).result(binding)
-    File.write("output/projects/" + index + ".html", output)
+    %x( mkdir output/projects/#{index} )
+    File.write("output/projects/" + index + "/index.html", output)
 end
 
 %x( cp style.css output/style.css )
