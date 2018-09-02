@@ -64,6 +64,8 @@ class PageData
     end
 end
 
+puts "Generating site"
+
 if not Dir.exist?("temp")
     %x( mkdir temp )
 end
@@ -102,3 +104,5 @@ end
 
 %x( cp style.css output/style.css )
 %x( rm -rf temp )
+
+puts "Finished generating site"
