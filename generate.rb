@@ -78,7 +78,7 @@ data = PageData.new
 binding = data.get_binding
 
 Dir.foreach('templates/core') do |item|
-    next if item == '.' or item == '..' or item[0,1] == '.'
+    next if item == '.' or item == '..' or item[0,1] == '.' or item[0,1] == "#"
     template = File.read("templates/core/" + item)
     output = ERB.new(template).result(binding)
     
