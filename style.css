@@ -42,8 +42,12 @@ ul {
 
 table {
     font-size: 15pt;
-    width: 60%;
+    width: 100%;
     margin: auto;
+}
+
+table.menu {
+    width: 60%
 }
 
 table.menu td {
