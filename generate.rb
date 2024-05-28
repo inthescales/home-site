@@ -73,6 +73,7 @@ end
 %x( rm -rf output/*)
 %x( mkdir output/projects/ )
 %x( cp -r resources/ output/resources )
+%x( cp -r robots.txt output/robots.txt )
 
 data = PageData.new
 binding = data.get_binding
