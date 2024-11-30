@@ -59,10 +59,6 @@ for template in [page_header, page_footer, project_header, project_footer, link_
         print("ERROR: Failed to import one or more templates")
         exit(0)
 
-print("> Copying pages")
-
-shutil.copy("./index.html", "./output/index.html")
-
 print("> Generating pages")
 
 page_files = os.listdir("./pages/")
