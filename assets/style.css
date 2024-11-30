@@ -1,0 +1,79 @@
+body {
+    font-size: 20;
+    margin: 0;
+    color: rgb(0, 48, 66);
+    background-color: rgb(194, 238, 255);
+    background-image: url("/assets/images/gradient.png");
+    background-repeat: repeat-x;
+    background-position: top;
+}
+
+.column {
+    width: 800px;
+    margin: auto;
+    padding: 0;
+}
+
+.divider {
+    background-color: rgb(0, 48, 66);
+    height: 1px;
+    margin: 8px auto;
+}
+
+.top-spacer {
+    height: 40px;
+}
+
+.top-link-bar {
+    width: 800px;
+    font-size: 16;
+}
+
+p {
+    margin: 12px 0 12px;
+}
+
+a {
+    color: rgb(230, 0, 12);
+}
+
+.upper-bg {
+    width: 100%;
+    height: 60px;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(180deg, rgba(102,173,241,1) 0%, rgba(143,219,245,1) 45%, rgba(194,238,255,1) 100%);
+}
+
+/* Makes pixel images not blurry */
+img.pixel { 
+    image-rendering: optimizeSpeed;             /* STOP SMOOTHING, GIVE ME SPEED  */
+    image-rendering: -moz-crisp-edges;          /* Firefox                        */
+    image-rendering: -o-crisp-edges;            /* Opera                          */
+    image-rendering: -webkit-optimize-contrast; /* Chrome (and eventually Safari) */
+    image-rendering: pixelated;                 /* Universal support since 2021   */
+    image-rendering: optimize-contrast;         /* CSS3 Proposed                  */
+    -ms-interpolation-mode: nearest-neighbor;   /* IE8+                           */
+}
+
+/* Project index */
+
+h1.section-header {
+    margin-bottom: 0;
+}
+
+h3.proj-header {
+    margin-top: 34px;
+    margin-bottom: 0;
+}
+
+.proj-choice {
+    font-size: 19;
+}
+
+/* Project pages */
+
+.choose-language {
+    font-style: italic;
+    margin-bottom: 32px;
+}
