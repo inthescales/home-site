@@ -25,10 +25,10 @@ def process(data, meta):
         title = meta["title"]
 
     if title != None:
-        data = data.replace("%TITLE%", title + " - In The Scales")
+        data = data.replace("%TITLE%", title + " - Chimerismata")
         data = data.replace(r"%HEADER%", title)
     else:
-        data = data.replace("%TITLE%", "In The Scales")
+        data = data.replace("%TITLE%", "Chimerismata")
 
     data = data.replace("%TOP_MATTER%", top_matter(meta))
 
