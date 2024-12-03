@@ -4,10 +4,9 @@ import shutil
 
 import src.meta as metadata
 
-print("> Generating site")
+# Constants =====================
 
-shutil.rmtree("./output")
-os.mkdir("./output/")
+site_name = "In The Scales"
 
 # Helpers ======================
 
@@ -25,16 +24,21 @@ def process(data, meta):
         title = meta["title"]
 
     if title != None:
-        data = data.replace("%TITLE%", title + " - In The Scales")
+        data = data.replace("%TITLE%", title + " - " + site_name)
         data = data.replace(r"%HEADER%", title)
     else:
-        data = data.replace("%TITLE%", "In The Scales")
+        data = data.replace("%TITLE%", site_name)
 
     data = data.replace("%TOP_MATTER%", top_matter(meta))
 
     return data
 
 # MAIN =========================
+
+print("> Generating site")
+
+shutil.rmtree("./output")
+os.mkdir("./output/")
 
 print("> Reading templates")
 
